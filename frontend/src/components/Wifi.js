@@ -34,7 +34,7 @@ function Wifi() {
   }else {
     return (
       <Container>
-        <Box sx={{ m: 3}}>
+        <Box sx={{ width: '50%', m: 3}}>
           <WifiTable data_list={data}/>
         </Box>
       </Container>

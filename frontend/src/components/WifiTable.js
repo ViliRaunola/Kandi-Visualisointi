@@ -79,23 +79,44 @@ Row.propTypes = {
 };
 
 export default function WifiTable({data_list}) {
+    const notAvailableMessage = '--'
 
     const [rows, setRows] = React.useState([{}])
 
     React.useEffect(() => {
         const newRows = data_list.map(data => {
-            var today = new Date();
-            var last_seen_dateobj = new Date(data.Last_Seen);
-            var time_since_seen = (today - last_seen_dateobj) / 1000;
-            const updatedData = {
+        var today = new Date();
+        var last_seen_dateobj = new Date(data.Last_Seen);
+        var time_since_seen = (today - last_seen_dateobj) / 1000;
+        var updatedData;
+        if(data.ESSID == ' ' || data.ESSID === undefined){
+            var essid = notAvailableMessage;
+            if(data.Manufacturer == ''){
+                var manuf = notAvailableMessage;
+                updatedData = {
+                    ...data, Seconds_Seen: time_since_seen, ESSID: essid, Manufacturer: manuf
+                }
+            }else{
+                updatedData = {
+                    ...data, Seconds_Seen: time_since_seen, ESSID: essid
+                }
+            }
+        }else if(data.Manufacturer == ''){
+            var manuf = notAvailableMessage;
+                updatedData = {
+                    ...data, Seconds_Seen: time_since_seen, Manufacturer: manuf
+                }
+        }else{
+            updatedData = {
                 ...data, Seconds_Seen: time_since_seen
             }
-            if(time_since_seen <= 6000){
-                return updatedData;
-            }else{
-                return null
-            }     
-        })
+        }
+        if(time_since_seen <= 6000){
+            return updatedData;
+        }else{
+            return null
+        }     
+    })
         setRows(newRows)
     }, [])
     if(rows[0] === undefined || rows.length == 1){
