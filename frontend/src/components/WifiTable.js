@@ -22,7 +22,7 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} style={{background: row.Is_AP ? '#90EE90': '#FFFFE0'}}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -34,10 +34,11 @@ function Row(props) {
         </TableCell>
         <TableCell component="th" scope="row">{row.ESSID}</TableCell>
         <TableCell>{row.Manufacturer}</TableCell>
+        <TableCell>{row.Is_AP ? 'Yes': 'No'}</TableCell>
         <TableCell align="right">{row.Seconds_Seen}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 ,background: row.Is_AP ? '#90EE90': '#FFFFE0'}} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -69,14 +70,14 @@ function Row(props) {
   );
 }
 
-Row.propTypes = {
-  row: PropTypes.shape({
-    Manufacturer: PropTypes.string,
-    First_Seen: PropTypes.string,
-    Last_Seen: PropTypes.string,
-    ESSID: PropTypes.string,
-  })
-};
+// Row.propTypes = {
+//   row: PropTypes.shape({
+//     Manufacturer: PropTypes.string,
+//     First_Seen: PropTypes.string,
+//     Last_Seen: PropTypes.string,
+//     ESSID: PropTypes.string,
+//   })
+// };
 
 export default function WifiTable({data_list}) {
     const notAvailableMessage = '--'
@@ -111,7 +112,7 @@ export default function WifiTable({data_list}) {
                 ...data, Seconds_Seen: time_since_seen
             }
         }
-        if(time_since_seen <= 6000){
+        if(time_since_seen <= 60000){
             return updatedData;
         }else{
             return null
@@ -124,10 +125,11 @@ export default function WifiTable({data_list}) {
             <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
                 <TableHead>
-                <TableRow>
+                <TableRow style={{background: '#A9A9A9'}}>
                     <TableCell />
                     <TableCell>SSID</TableCell>
                     <TableCell>Manufacturer</TableCell>
+                    <TableCell>Access Point</TableCell>
                     <TableCell align="right">Seen x seconds ago</TableCell>
                 </TableRow>
                 </TableHead>
@@ -141,10 +143,11 @@ export default function WifiTable({data_list}) {
             <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
                 <TableHead>
-                <TableRow>
+                <TableRow style={{background: '#A9A9A9'}}>
                     <TableCell />
                     <TableCell>SSID</TableCell>
                     <TableCell>Manufacturer</TableCell>
+                    <TableCell>Is Access Point</TableCell>
                     <TableCell align="right">Seen x seconds ago</TableCell>
                 </TableRow>
                 </TableHead>

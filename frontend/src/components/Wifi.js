@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import WifiTable from './WifiTable'
 import {Box} from '@mui/system'
-import { Container } from '@mui/material'
+import { Container,Typography } from '@mui/material'
 
 function Wifi() {
 
@@ -34,7 +34,10 @@ function Wifi() {
   }else {
     return (
       <Container>
-        <Box sx={{ width: '50%', m: 3}}>
+        <Box sx={{display: 'flex', flexDirection: 'column', width: '75%', m: 3}}>
+          <Typography variant='h4' color='headerPrimary' component='h1' padding={2}>
+                Devices heard less than a minute ago
+          </Typography>
           <WifiTable data_list={data}/>
         </Box>
       </Container>
