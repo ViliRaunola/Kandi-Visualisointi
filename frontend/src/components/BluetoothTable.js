@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -22,7 +21,7 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} style={{background: row.Is_AP ? '#90EE90': '#FFFFE0'}}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -32,13 +31,12 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">{row.ESSID}</TableCell>
-        <TableCell>{row.Manufacturer}</TableCell>
-        <TableCell>{row.Is_AP ? 'Yes': 'No'}</TableCell>
+        <TableCell component="th" scope="row">{row.Name}</TableCell>
+        <TableCell>{row.Company}</TableCell>
         <TableCell align="right">{row.Seconds_Seen}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 ,background: row.Is_AP ? '#90EE90': '#FFFFE0'}} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0}} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
@@ -49,7 +47,7 @@ function Row(props) {
                   <TableRow>
                     <TableCell>First seen</TableCell>
                     <TableCell>Last seen</TableCell>
-                    <TableCell align="right">Signal strength</TableCell>
+                    <TableCell align="right">RSSI</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -57,7 +55,7 @@ function Row(props) {
                     <TableRow key={row.Last_Seen}>
                         <TableCell component="th" scope="row">{row.First_Seen}</TableCell>
                         <TableCell>{row.Last_Seen}</TableCell>
-                        <TableCell align="right">{row.Signal_Strength}</TableCell>
+                        <TableCell align="right">{row.RSSI}</TableCell>
                     </TableRow>
                   
                 </TableBody>
@@ -70,45 +68,44 @@ function Row(props) {
   );
 }
 
-
-export default function WifiTable({data_list}) {
+export default function BluetoothTable({data_list}) {
     const notAvailableMessage = '--'
 
     const [rows, setRows] = React.useState([{}])
 
     React.useEffect(() => {
         const newRows = data_list.map(data => {
-        var today = new Date();
-        var last_seen_dateobj = new Date(data.Last_Seen);
-        var time_since_seen = (today - last_seen_dateobj) / 1000;
-        var updatedData;
-        if(data.ESSID == ' ' || data.ESSID === undefined){
-            var essid = notAvailableMessage;
-            if(data.Manufacturer == ''){
-                var manuf = notAvailableMessage;
-                updatedData = {
-                    ...data, Seconds_Seen: time_since_seen, ESSID: essid, Manufacturer: manuf
+            var today = new Date();
+            var last_seen_dateobj = new Date(data.Last_Seen);
+            var time_since_seen = (today - last_seen_dateobj) / 1000;
+            var updatedData;
+            if(data.Name == ''){
+                var name = notAvailableMessage;
+                if(data.Company === ''){
+                    var company = notAvailableMessage;
+                    updatedData = {
+                        ...data, Seconds_Seen: time_since_seen, Name: name, Company: company
+                    }
+                }else{
+                    updatedData = {
+                        ...data, Seconds_Seen: time_since_seen, Name: name
+                    }
                 }
+            }else if(data.Company === ''){
+                var company = notAvailableMessage;
+                    updatedData = {
+                        ...data, Seconds_Seen: time_since_seen, Company: company
+                    }
             }else{
                 updatedData = {
-                    ...data, Seconds_Seen: time_since_seen, ESSID: essid
+                    ...data, Seconds_Seen: time_since_seen
                 }
             }
-        }else if(data.Manufacturer == ''){
-            var manuf = notAvailableMessage;
-                updatedData = {
-                    ...data, Seconds_Seen: time_since_seen, Manufacturer: manuf
-                }
-        }else{
-            updatedData = {
-                ...data, Seconds_Seen: time_since_seen
-            }
-        }
-        if(time_since_seen <= 60000){
-            return updatedData;
-        }else{
-            return null
-        }     
+            if(time_since_seen <= 60000){
+                return updatedData;
+            }else{
+                return null
+            }     
     })
         setRows(newRows)
     }, [])
@@ -117,13 +114,12 @@ export default function WifiTable({data_list}) {
             <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
                 <TableHead>
-                <TableRow style={{background: '#A9A9A9'}}>
-                    <TableCell />
-                    <TableCell>SSID</TableCell>
-                    <TableCell>Manufacturer</TableCell>
-                    <TableCell>Access Point</TableCell>
-                    <TableCell align="right">Seen x seconds ago</TableCell>
-                </TableRow>
+                    <TableRow style={{background: '#A9A9A9'}}>
+                        <TableCell />
+                        <TableCell>Name</TableCell>
+                        <TableCell>Company</TableCell>
+                        <TableCell align="right">Seen x seconds ago</TableCell>
+                    </TableRow>
                 </TableHead>
                 <TableBody>
                 </TableBody>
@@ -136,11 +132,10 @@ export default function WifiTable({data_list}) {
             <Table aria-label="collapsible table">
                 <TableHead>
                 <TableRow style={{background: '#A9A9A9'}}>
-                    <TableCell />
-                    <TableCell>SSID</TableCell>
-                    <TableCell>Manufacturer</TableCell>
-                    <TableCell>Is Access Point</TableCell>
-                    <TableCell align="right">Seen x seconds ago</TableCell>
+                <TableCell />
+                        <TableCell>Name</TableCell>
+                        <TableCell>Company</TableCell>
+                        <TableCell align="right">Seen x seconds ago</TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
