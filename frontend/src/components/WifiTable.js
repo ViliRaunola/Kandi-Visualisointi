@@ -71,7 +71,7 @@ function Row(props) {
 }
 
 
-export default function WifiTable({data_list}) {
+export default function WifiTable({data_list, displayTimer}) {
     const notAvailableMessage = '--'
 
     const [rows, setRows] = React.useState([{}])
@@ -104,7 +104,7 @@ export default function WifiTable({data_list}) {
                 ...data, Seconds_Seen: time_since_seen
             }
         }
-        if(time_since_seen <= 60){
+        if(time_since_seen <= displayTimer){
             return updatedData;
         }else{
             return null
