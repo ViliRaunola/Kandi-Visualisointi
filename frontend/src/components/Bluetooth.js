@@ -6,7 +6,7 @@ import BluetoothTable from './BluetoothTable'
 function Bluetooth() {
   const [data, setData] = useState([{}])   //Wifi data fetched from the server
   const [displayTimer, setDisplayTimer] = useState(60);
-  const [userInput, setUserInput] = useState();
+  const [userInput, setUserInput] = useState('');
 
   //Fetching data from the api
   //Source for setting up useEffect with timer: https://stackoverflow.com/questions/67463964/react-useeffect-and-setinterval

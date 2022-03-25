@@ -9,10 +9,20 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import { Link as RouterLink} from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 
 //SOURCE FOR APP BAR: https://mui.com/components/app-bar/#basic-app-bar
+//SOURCE FOR DARK THEME: https://mui.com/components/app-bar/
 
+const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#1976d2',
+      },
+    },
+  });
 
 const ResponsiveAppBar = () => {
 
@@ -29,6 +39,7 @@ const ResponsiveAppBar = () => {
 
 
     return (
+        <ThemeProvider theme={darkTheme}>
         <AppBar position="static">
         <Container maxWidth="xl" >  {/* Container now grows to the full size of the screen */}
             <Toolbar disableGutters> {/* Gutters are set to false, so there wont be spaces between content's tracks*/}
@@ -80,6 +91,7 @@ const ResponsiveAppBar = () => {
             </Toolbar>
         </Container>
         </AppBar>
+        </ThemeProvider>
     );
     };
 export default ResponsiveAppBar;

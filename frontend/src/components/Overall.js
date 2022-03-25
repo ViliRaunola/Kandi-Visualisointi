@@ -68,6 +68,7 @@ function Overall() {
     <Container  sx={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
       
       {/* Live chart */}
+      <Typography variant='h6' paddingTop={2} color='headerPrimary' component='h1'>Chart of devices detected less than 60s ago</Typography>
       <Box marginTop={5}>
         <LineChartOverall data={amountDevices}/>
       </Box>

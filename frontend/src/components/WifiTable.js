@@ -35,7 +35,7 @@ function Row(props) {
         <TableCell component="th" scope="row">{row.ESSID}</TableCell>
         <TableCell>{row.Manufacturer}</TableCell>
         <TableCell>{row.Is_AP ? 'Yes': 'No'}</TableCell>
-        <TableCell align="right">{row.Seconds_Seen}</TableCell>
+        <TableCell align="right">{Math.round(row.Seconds_Seen)}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 ,background: row.Is_AP ? '#90EE90': '#FFFFE0'}} colSpan={6}>

@@ -33,7 +33,7 @@ function Row(props) {
         </TableCell>
         <TableCell component="th" scope="row">{row.Name}</TableCell>
         <TableCell>{row.Company}</TableCell>
-        <TableCell align="right">{row.Seconds_Seen}</TableCell>
+        <TableCell align="right">{Math.round(row.Seconds_Seen)}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0}} colSpan={6}>
