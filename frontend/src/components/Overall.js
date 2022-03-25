@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import LineChartOverall from './LineChart';
+import {Box} from '@mui/system'
 
 function Overall() {
 
   const [data, setData] = useState({});
-  const [amountDevices, setAmountDevices] = useState({});
+  const [amountDevices, setAmountDevices] = useState([{}]);
   const [wifiDevicesCounter, setWifiDevicesCounter] = useState(0);
   const [btDevicesCounter, setBtDevicesCounter] = useState(0)
 
@@ -14,7 +16,6 @@ function Overall() {
       fetch('data')
       .then(res => res.json())
       .then(data => {
-        setAmountDevices(0);
         setBtDevicesCounter(0);
         setWifiDevicesCounter(0);
         setData(data)
@@ -26,7 +27,7 @@ function Overall() {
     //Setting an interval to 60 s.
     const interval = setInterval(() => {
       getData()
-    }, 60000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -37,13 +38,13 @@ function Overall() {
       var today = new Date();
       var wifiCounter = 0;
       var btCounter = 0;
-      console.log('ei pitäs näkyy')
+      var totalCounter = 0;
       //Going through the wifi devices to check if there are devices detected less than 30s ago
       data.wifi.map((wifiData) => {
         let last_seen_dateobj = new Date(wifiData.Last_Seen);
         let time_since_seen = (today - last_seen_dateobj) / 1000;
 
-        if(time_since_seen < 3000000){
+        if(time_since_seen <= 60){
           //setWifiDevicesCounter(prev => prev + 1);
           wifiCounter++;
         }
@@ -53,20 +54,21 @@ function Overall() {
       data.bt.map((btData) => {
         let last_seen_dateobj = new Date(btData.Last_Seen);
         let time_since_seen = (today - last_seen_dateobj) / 1000;
-        if(time_since_seen < 3000000){
+        if(time_since_seen <= 60){
           btCounter++;
         }
       })
       setBtDevicesCounter(btCounter)
-  
-      setAmountDevices(btCounter + wifiCounter);
-      console.log(btCounter + wifiCounter)
+      var obs_time = today.toTimeString().split(' ')[0];
+      totalCounter = btCounter + wifiCounter;
+      setAmountDevices(amountDevices => [...amountDevices, {obs_time, totalCounter}]);
     }
   }, [data])
 
-
   return (
-    <div>Overall</div>
+    <Box>
+      <LineChartOverall data={amountDevices}/>
+    </Box>
   )
 }
 

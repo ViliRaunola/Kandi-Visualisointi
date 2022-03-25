@@ -104,14 +104,14 @@ export default function WifiTable({data_list}) {
                 ...data, Seconds_Seen: time_since_seen
             }
         }
-        if(time_since_seen <= 60000){
+        if(time_since_seen <= 60){
             return updatedData;
         }else{
             return null
         }     
     })
         setRows(newRows)
-    }, [])
+    }, [data_list])
     if(rows[0] === undefined || rows.length == 1){
         return (
             <TableContainer component={Paper}>

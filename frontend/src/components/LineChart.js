@@ -1,14 +1,14 @@
 import React from 'react'
+import {Line,LineChart,XAxis,YAxis} from 'recharts';
 
-function LineChart({data}) {
+function LineChartOverall({data}) {
   return (
     <LineChart width={500} height={300} data={data}>
-    <XAxis dataKey="time"/>
+    <XAxis dataKey="obs_time"/>
     <YAxis/>
-    <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
-    <Line type="monotone" dataKey="count" stroke="#8884d8" />
+    <Line type="monotone" dataKey="totalCounter" stroke="#8884d8" />
   </LineChart>
   )
 }
 
-export default LineChart
+export default LineChartOverall
