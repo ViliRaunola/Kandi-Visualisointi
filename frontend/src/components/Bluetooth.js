@@ -26,8 +26,6 @@ function Bluetooth() {
     return () => clearInterval(interval);
   }, [])
 
-  console.log(data)
-
   if(data.length < 2){
     return <div>Loading...</div>
   }else {

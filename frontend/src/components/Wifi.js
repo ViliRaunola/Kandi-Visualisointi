@@ -15,6 +15,7 @@ function Wifi() {
       .then(res => res.json())
       .then(data => {
         setData(data.wifi)
+        console.log('Fetched wifi from server')
       })
     }
    
@@ -26,8 +27,6 @@ function Wifi() {
     }, 10000);
     return () => clearInterval(interval);
   }, [])
-
-  console.log(data)
 
   if(data.length < 2){
     return <div>Loading...</div>
