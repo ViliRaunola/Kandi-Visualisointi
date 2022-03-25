@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import LineChartOverall from './LineChart';
-import {Box} from '@mui/system'
+import {Box, typography} from '@mui/system'
+import SquareIcon from '@mui/icons-material/Square';
+import { Typography } from '@mui/material';
 
 function Overall() {
 
   const [data, setData] = useState({});
   const [amountDevices, setAmountDevices] = useState([{}]);
-  const [wifiDevicesCounter, setWifiDevicesCounter] = useState(0);
-  const [btDevicesCounter, setBtDevicesCounter] = useState(0)
 
   //Fetching data from the api
   //Source for setting up useEffect with timer: https://stackoverflow.com/questions/67463964/react-useeffect-and-setinterval
@@ -16,8 +16,6 @@ function Overall() {
       fetch('data')
       .then(res => res.json())
       .then(data => {
-        setBtDevicesCounter(0);
-        setWifiDevicesCounter(0);
         setData(data)
       })
     }
@@ -48,7 +46,7 @@ function Overall() {
           //setWifiDevicesCounter(prev => prev + 1);
           wifiCounter++;
         }
-        setWifiDevicesCounter(wifiCounter)
+        
       })
   
       data.bt.map((btData) => {
@@ -58,16 +56,36 @@ function Overall() {
           btCounter++;
         }
       })
-      setBtDevicesCounter(btCounter)
+      
       var obs_time = today.toTimeString().split(' ')[0];
       totalCounter = btCounter + wifiCounter;
-      setAmountDevices(amountDevices => [...amountDevices, {obs_time, totalCounter}]);
+      setAmountDevices(amountDevices => [...amountDevices, {obs_time, totalCounter, btCounter, wifiCounter}]);
     }
   }, [data])
 
   return (
-    <Box>
-      <LineChartOverall data={amountDevices}/>
+    <Box sx={{display: 'flex', flexDirection: 'column'}}>
+      
+      {/* Live chart */}
+      <Box marginTop={5}>
+        <LineChartOverall data={amountDevices}/>
+      </Box>
+      
+
+      {/* Line names & colors */}
+      {/* <Box sx={{display: 'flex', flexDirection: 'row'}}>
+        <SquareIcon sx={{paddingLeft: 10, color: '#8884d8', fontSize: 'medium'}}/>
+        <Typography  fontSize={12} paddingLeft={2} >All devices combined</Typography>
+      </Box>
+      <Box sx={{display: 'flex', flexDirection: 'row'}}>
+        <SquareIcon sx={{paddingLeft: 10, color: '#ca82b0', fontSize: 'medium'}}/>
+        <Typography  fontSize={12} paddingLeft={2} >Wifi devices</Typography>
+      </Box>
+      <Box sx={{display: 'flex', flexDirection: 'row'}}>
+        <SquareIcon sx={{paddingLeft: 10, color: '#82ca9d', fontSize: 'medium'}}/>
+        <Typography  fontSize={12} paddingLeft={2} >Bluetooth devices</Typography>
+      </Box> */}
+      
     </Box>
   )
 }
