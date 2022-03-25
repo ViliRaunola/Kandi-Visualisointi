@@ -12,7 +12,7 @@ function Bluetooth() {
   //Source for setting up useEffect with timer: https://stackoverflow.com/questions/67463964/react-useeffect-and-setinterval
   useEffect(() => {
     const getBtData = () => {
-      fetch('data/bt')
+      fetch('data/bt', {mode:'cors'})   //For production: https://sheltered-lake-40542.herokuapp.com/api/
       .then(res => res.json())
       .then(data => {
         setData(data.bt)
