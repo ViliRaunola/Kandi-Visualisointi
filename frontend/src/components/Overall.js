@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import LineChartOverall from './LineChart';
 import {Box, typography} from '@mui/system'
+import { Container } from '@mui/material';
 import SquareIcon from '@mui/icons-material/Square';
 import { Typography } from '@mui/material';
 
@@ -64,7 +65,7 @@ function Overall() {
   }, [data])
 
   return (
-    <Box sx={{display: 'flex', flexDirection: 'column'}}>
+    <Container  sx={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
       
       {/* Live chart */}
       <Box marginTop={5}>
@@ -86,7 +87,7 @@ function Overall() {
         <Typography  fontSize={12} paddingLeft={2} >Bluetooth devices</Typography>
       </Box> */}
       
-    </Box>
+    </Container>
   )
 }
 
